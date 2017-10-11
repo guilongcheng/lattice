@@ -88,7 +88,7 @@ class Time(object):
 
 class TwoPointF(xr.Dataset):
 
-    def ReadData(self, filename,format=""):
+    def ReadData(self, filename, coords={},format=""):
         """ReadData from files. filename can be a strings or list
         format can be  npy,npz,io_g(io_general),b(binary),chroma ...
 
@@ -110,11 +110,12 @@ class TwoPointF(xr.Dataset):
             typename_ = [typename[i] for i in type_]
             n_indices_ = tuple(head_data['head']['one_dim']['n_indices'][0:n_dims_])
             indices_ = head_data['head']['one_dim']['indices'][0:n_dims_]
-            coords = {}
+            coords_ = {}
             for i in range(n_dims_):
-                coords[typename_[i]] = indices_[i][0:n_indices_[i]]
-            self["corr2"] = xr.DataArray(data, coords=coords, dims=tuple(typename_))
+                coords_[typename_[i]] = indices_[i][0:n_indices_[i]]
+            self["corr2"] = xr.DataArray(data, coords=coords_, dims=tuple(typename_))
         elif "b" in format:
-            pass
+            if  type(filename) is list:
+                pass
         else:
             pass
